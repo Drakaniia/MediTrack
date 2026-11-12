@@ -1,0 +1,10 @@
+# Local secrets for `wrangler pages dev`. `pnpm web:dev` copies this file to
+# apps/web/.dev.vars on first run (with a random SESSION_PEPPER). .dev.vars is
+# gitignored; never commit real values.
+SESSION_PEPPER=change-me-to-a-long-random-string
+PASSWORD_ITERATIONS=100000
+VAPID_PUBLIC_KEY=
+APP_ENV=local
+# Read by `pnpm web:seed-admin` (a variable set in the shell wins):
+# WEB_ADMIN_USERNAME=admin
+# WEB_ADMIN_PASSWORD=at-least-10-characters

@@ -1,0 +1,73 @@
+# MediTract Web — Cloudflare Pages configuration (static SPA in ./dist + Pages
+# Functions in ./functions, one D1 database).
+#
+# One-time setup (full walkthrough in apps/web/README.md):
+#   1. pnpm exec wrangler d1 create meditract           (from apps/web)
+#      pnpm exec wrangler d1 create meditract-preview   (only if you use previews)
+#      Paste each returned database_id below, replacing REPLACE_WITH_D1_ID.
+#   2. pnpm web:migrate --remote                        (applies apps/web/migrations)
+#   3. Secrets (never committed; see .dev.vars.example for the local equivalents). The Pages
+#      project must exist first:
+#        pnpm exec wrangler pages project create meditract --production-branch main
+#        pnpm exec wrangler pages secret put SESSION_PEPPER --project-name meditract
+#      That sets the production secret. `pages secret put` has no --env flag: set the
+#      Preview value (a different random string) in the dashboard under Workers & Pages >
+#      meditract > Settings > Variables and Secrets > Preview.
+#      The public VAPID key is NOT a secret: set VAPID_PUBLIC_KEY in [vars] below.
+#      Generate the pair with `node scripts/web-vapid-keys.mjs`; the private half
+#      belongs to the cron Worker only (`wrangler secret put VAPID_PRIVATE_KEY`).
+#   4. First admin, once per database:
+#        WEB_ADMIN_USERNAME=... WEB_ADMIN_PASSWORD=... pnpm web:seed-admin --remote
+#      (the script ships with the SEED slice).
+#   5. pnpm web:deploy                                  (or let .github/workflows/web.yml do it)
+#
+# Pages quirk: bindings and vars are NOT inherited by [env.*] blocks, so each
+# environment repeats its own D1 binding and vars. The top-level blocks are what
+# `wrangler pages dev` and `wrangler d1 ... --local` use.
+
+name = "meditract"
+pages_build_output_dir = "./dist"
+# Pinned so a deploy months from now runs against the runtime semantics the
+# release was tested on. Bump deliberately, together with the cron Worker.
+compatibility_date = "2026-10-01"
+
+# Local development and the default target of `pnpm web:migrate`.
+[[d1_databases]]
+binding = "DB"
+database_name = "meditract"
+# Replaced by the id printed by `wrangler d1 create meditract`. The local D1
+# (apps/web/.wrangler/state) works with the placeholder; only --remote needs the real id.
+database_id = "REPLACE_WITH_D1_ID"
+migrations_dir = "migrations"
+
+[vars]
+APP_ENV = "local"
+# Public VAPID key (base64url). Not a secret. Empty disables Web Push in the UI.
+VAPID_PUBLIC_KEY = ""
+
+# Branch deployments (`wrangler pages deploy --branch <not main>`): a separate D1
+# so a preview can never touch production data.
+[env.preview]
+
+[[env.preview.d1_databases]]
+binding = "DB"
+database_name = "meditract-preview"
+database_id = "REPLACE_WITH_D1_ID"
+migrations_dir = "migrations"
+
+[env.preview.vars]
+APP_ENV = "preview"
+VAPID_PUBLIC_KEY = ""
+
+# Production (the `main` branch deployment).
+[env.production]
+
+[[env.production.d1_databases]]
+binding = "DB"
+database_name = "meditract"
+database_id = "REPLACE_WITH_D1_ID"
+migrations_dir = "migrations"
+
+[env.production.vars]
+APP_ENV = "production"
+VAPID_PUBLIC_KEY = ""

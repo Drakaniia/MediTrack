@@ -1,0 +1,87 @@
+@import "@cmis/ui/globals.css";
+
+/* The web shell's base rules. `@cmis/ui/globals.css` is shared with the desktop
+   app and carries that app's window-chrome conventions; this file keeps only
+   what a normal web page needs. In particular there is NO global
+   `user-select: none` (text is content here), NO `overflow: hidden` on
+   html/body, and NO drag blocking: the document scrolls like any web page. */
+
+/* Compact density: `compact:py-1` applies inside <html data-density="compact">
+   (set by `hooks/use-density.tsx`). */
+@custom-variant compact (&:is([data-density="compact"] *));
+
+/* ── Expiry class tokens ─────────────────────────────────────────────────
+   One colour per class, tuned per theme so the text reads on its own 10-15%
+   tint (>= 4.5:1). Use `text-expiry-urgent`, `bg-expiry-urgent/15`, …; the
+   `ExpiryBadge` component pairs every colour with an icon and the class name. */
+:root {
+  --expiry-expired: oklch(0.5 0.2 27);
+  --expiry-urgent: oklch(0.5 0.13 50);
+  --expiry-near: oklch(0.47 0.1 85);
+  --expiry-safe: oklch(0.5 0 0);
+}
+
+.dark {
+  --expiry-expired: oklch(0.78 0.15 22);
+  --expiry-urgent: oklch(0.8 0.13 60);
+  --expiry-near: oklch(0.88 0.12 95);
+  --expiry-safe: oklch(0.708 0 0);
+}
+
+@theme inline {
+  --color-expiry-expired: var(--expiry-expired);
+  --color-expiry-urgent: var(--expiry-urgent);
+  --color-expiry-near: var(--expiry-near);
+  --color-expiry-safe: var(--expiry-safe);
+}
+
+/* Touch targets (>= 40px): applied to icon buttons and links in the shell.
+   Phone widths and any coarse pointer (tablets) get the larger hit area. */
+@utility tap-target {
+  @media (max-width: 47.9375rem), (pointer: coarse) {
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+  }
+}
+
+/* ── Page ─────────────────────────────────────────────────────────────── */
+html {
+  /* Router scroll restoration and the skip link jump instantly; a smooth
+     scroll would animate every restored position. */
+  scroll-behavior: auto;
+  /* Anchors and focus targets must not hide under the sticky header. */
+  scroll-padding-top: 4.5rem;
+  /* The shared stylesheet hides every scrollbar (a desktop-window choice).
+     A web page keeps a thin one so position and dragging stay discoverable. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--apple-scrollbar-thumb) transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+html::-webkit-scrollbar {
+  display: block;
+  width: 10px;
+  height: 10px;
+}
+
+html::-webkit-scrollbar-thumb {
+  display: block;
+  background-color: var(--apple-scrollbar-thumb);
+  background-clip: content-box;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+}
+
+body {
+  min-height: 100svh;
+}
+
+#app {
+  min-height: 100svh;
+}
+
+/* ── Print ────────────────────────────────────────────────────────────────
+   Placeholder. The shell chrome (sidebar, header, banners) is hidden with the
+   `print:hidden` utility on the components themselves. Features that print
+   (the QR label sheet, the stock/expiry reports) add their `@media print`
+   rules in their own stylesheet, next to the feature. */

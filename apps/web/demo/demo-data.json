@@ -1,0 +1,968 @@
+{
+  "$comment": "MediTract Web demo dataset. Every date is RELATIVE to the base date of `pnpm web:seed-demo`: batch `expiry`/`received` are whole days from today (negative = past); `at` values are \"<days>d HH:MM\" in the facility timezone. Expiry classes at the default 30/7 thresholds: Urgent 0..7 days, Near Expiry 8..30, Safe >30, Expired <0. See scripts/web-seed/demo-plan.mjs for how the rest is derived (initial quantities, stock movements, request events, notifications).",
+  "version": 1,
+  "seed": "meditract-demo-v1",
+  "defaults": { "inventoryUser": "inventory" },
+  "users": [
+    {
+      "ref": "admin",
+      "username": "demo.admin",
+      "displayName": "Demo Administrator",
+      "role": "admin",
+      "email": "demo.admin@meditract.test"
+    },
+    {
+      "ref": "inventory",
+      "username": "demo.inventory",
+      "displayName": "Ivan Reyes",
+      "role": "inventory",
+      "email": "demo.inventory@meditract.test"
+    },
+    {
+      "ref": "pharmacist",
+      "username": "demo.pharmacist",
+      "displayName": "Paula Mendoza",
+      "role": "pharmacist",
+      "email": "demo.pharmacist@meditract.test"
+    },
+    {
+      "ref": "nurse",
+      "username": "demo.nurse",
+      "displayName": "Nora Villanueva",
+      "role": "nurse",
+      "email": "demo.nurse@meditract.test"
+    },
+    {
+      "ref": "healthadmin",
+      "username": "demo.healthadmin",
+      "displayName": "Hector Alvarez",
+      "role": "health_admin",
+      "email": "demo.healthadmin@meditract.test"
+    }
+  ],
+  "categories": [
+    "Analgesics",
+    "Antibiotics",
+    "Antihistamines",
+    "Gastrointestinal",
+    "Respiratory",
+    "First Aid",
+    "Dressings",
+    "Rehydration",
+    "Equipment & Consumables"
+  ],
+  "items": [
+    {
+      "ref": "paracetamol-500",
+      "name": "Paracetamol",
+      "strength": "500 mg",
+      "category": "Analgesics",
+      "unit": "tab",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Pharmasource Trading",
+      "sku": "ANA-PCM500",
+      "barcode": "4800010000018",
+      "lowStockThreshold": 300
+    },
+    {
+      "ref": "ibuprofen-400",
+      "name": "Ibuprofen",
+      "strength": "400 mg",
+      "category": "Analgesics",
+      "unit": "tab",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Pharmasource Trading",
+      "sku": "ANA-IBU400",
+      "lowStockThreshold": 150
+    },
+    {
+      "ref": "mefenamic-500",
+      "name": "Mefenamic Acid",
+      "strength": "500 mg",
+      "category": "Analgesics",
+      "unit": "cap",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Pharmasource Trading",
+      "sku": "ANA-MFA500",
+      "lowStockThreshold": 100
+    },
+    {
+      "ref": "paracetamol-syrup",
+      "name": "Paracetamol",
+      "strength": "120 mg/5 mL syrup",
+      "category": "Analgesics",
+      "unit": "bottle",
+      "packUnit": "box",
+      "packSize": 24,
+      "supplier": "Pharmasource Trading",
+      "sku": "ANA-PCM120S",
+      "lowStockThreshold": 12,
+      "notes": "60 mL bottle. Shake well; discard 30 days after opening."
+    },
+    {
+      "ref": "amoxicillin-500",
+      "name": "Amoxicillin",
+      "strength": "500 mg",
+      "category": "Antibiotics",
+      "unit": "cap",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Generika Wholesale",
+      "sku": "ABX-AMX500",
+      "barcode": "4800010000025",
+      "lowStockThreshold": 200
+    },
+    {
+      "ref": "cotrimoxazole",
+      "name": "Co-trimoxazole",
+      "strength": "800/160 mg",
+      "category": "Antibiotics",
+      "unit": "tab",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Generika Wholesale",
+      "sku": "ABX-COT800",
+      "lowStockThreshold": 100
+    },
+    {
+      "ref": "azithromycin-500",
+      "name": "Azithromycin",
+      "strength": "500 mg",
+      "category": "Antibiotics",
+      "unit": "tab",
+      "packUnit": "box",
+      "packSize": 30,
+      "supplier": "Generika Wholesale",
+      "sku": "ABX-AZI500",
+      "lowStockThreshold": 30
+    },
+    {
+      "ref": "cefalexin-500",
+      "name": "Cefalexin",
+      "strength": "500 mg",
+      "category": "Antibiotics",
+      "unit": "cap",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Generika Wholesale",
+      "sku": "ABX-CEF500",
+      "lowStockThreshold": 80
+    },
+    {
+      "ref": "mupirocin",
+      "name": "Mupirocin",
+      "strength": "2% ointment",
+      "category": "Antibiotics",
+      "unit": "tube",
+      "packUnit": "box",
+      "packSize": 12,
+      "supplier": "Generika Wholesale",
+      "sku": "ABX-MUP2",
+      "lowStockThreshold": 6,
+      "notes": "15 g tube. Topical use only."
+    },
+    {
+      "ref": "cetirizine-10",
+      "name": "Cetirizine",
+      "strength": "10 mg",
+      "category": "Antihistamines",
+      "unit": "tab",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Pharmasource Trading",
+      "sku": "AHS-CTZ10",
+      "barcode": "4800010000032",
+      "lowStockThreshold": 100
+    },
+    {
+      "ref": "loratadine-10",
+      "name": "Loratadine",
+      "strength": "10 mg",
+      "category": "Antihistamines",
+      "unit": "tab",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Pharmasource Trading",
+      "sku": "AHS-LOR10",
+      "lowStockThreshold": 60
+    },
+    {
+      "ref": "chlorphenamine-4",
+      "name": "Chlorphenamine",
+      "strength": "4 mg",
+      "category": "Antihistamines",
+      "unit": "tab",
+      "packUnit": "box",
+      "packSize": 500,
+      "supplier": "Pharmasource Trading",
+      "sku": "AHS-CPM4",
+      "lowStockThreshold": 80
+    },
+    {
+      "ref": "omeprazole-20",
+      "name": "Omeprazole",
+      "strength": "20 mg",
+      "category": "Gastrointestinal",
+      "unit": "cap",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Generika Wholesale",
+      "sku": "GIT-OME20",
+      "lowStockThreshold": 100
+    },
+    {
+      "ref": "loperamide-2",
+      "name": "Loperamide",
+      "strength": "2 mg",
+      "category": "Gastrointestinal",
+      "unit": "cap",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Generika Wholesale",
+      "sku": "GIT-LOP2",
+      "lowStockThreshold": 40,
+      "notes": "Out of stock: reorder placed with the supplier."
+    },
+    {
+      "ref": "hyoscine-10",
+      "name": "Hyoscine Butylbromide",
+      "strength": "10 mg",
+      "category": "Gastrointestinal",
+      "unit": "tab",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Generika Wholesale",
+      "sku": "GIT-HYO10",
+      "lowStockThreshold": 40
+    },
+    {
+      "ref": "simethicone-40",
+      "name": "Simethicone",
+      "strength": "40 mg",
+      "category": "Gastrointestinal",
+      "unit": "tab",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Generika Wholesale",
+      "sku": "GIT-SIM40",
+      "lowStockThreshold": 50
+    },
+    {
+      "ref": "ors",
+      "name": "Oral Rehydration Salts",
+      "strength": "20.5 g sachet",
+      "category": "Rehydration",
+      "unit": "sachet",
+      "packUnit": "box",
+      "packSize": 50,
+      "supplier": "Pharmasource Trading",
+      "sku": "RHY-ORS205",
+      "barcode": "4800010000049",
+      "lowStockThreshold": 60,
+      "notes": "Low on usable stock: the older batch has expired and waits for disposal."
+    },
+    {
+      "ref": "salbutamol-inhaler",
+      "name": "Salbutamol",
+      "strength": "100 mcg inhaler",
+      "category": "Respiratory",
+      "unit": "inhaler",
+      "packUnit": "box",
+      "packSize": 12,
+      "supplier": "Generika Wholesale",
+      "sku": "RES-SAL100",
+      "lowStockThreshold": 8
+    },
+    {
+      "ref": "ambroxol-30",
+      "name": "Ambroxol",
+      "strength": "30 mg",
+      "category": "Respiratory",
+      "unit": "tab",
+      "packUnit": "box",
+      "packSize": 100,
+      "supplier": "Generika Wholesale",
+      "sku": "RES-AMB30",
+      "lowStockThreshold": 60
+    },
+    {
+      "ref": "povidone-iodine",
+      "name": "Povidone-iodine",
+      "strength": "10% solution 60 mL",
+      "category": "First Aid",
+      "unit": "bottle",
+      "packUnit": "box",
+      "packSize": 24,
+      "supplier": "MedSupply Central",
+      "sku": "FAD-PVP10",
+      "lowStockThreshold": 10
+    },
+    {
+      "ref": "alcohol-70",
+      "name": "Isopropyl Alcohol",
+      "strength": "70% 500 mL",
+      "category": "First Aid",
+      "unit": "bottle",
+      "packUnit": "box",
+      "packSize": 12,
+      "supplier": "MedSupply Central",
+      "sku": "FAD-ALC70",
+      "lowStockThreshold": 10
+    },
+    {
+      "ref": "hydrocortisone-cream",
+      "name": "Hydrocortisone",
+      "strength": "1% cream 15 g",
+      "category": "First Aid",
+      "unit": "tube",
+      "packUnit": "box",
+      "packSize": 12,
+      "supplier": "MedSupply Central",
+      "sku": "FAD-HYD1",
+      "lowStockThreshold": 6
+    },
+    {
+      "ref": "gauze-4x4",
+      "name": "Sterile Gauze Pad",
+      "strength": "4 x 4 in",
+      "category": "Dressings",
+      "unit": "pc",
+      "packUnit": "pack",
+      "packSize": 10,
+      "supplier": "MedSupply Central",
+      "sku": "DRS-GAZ44",
+      "lowStockThreshold": 100
+    },
+    {
+      "ref": "elastic-bandage",
+      "name": "Elastic Bandage",
+      "strength": "3 in",
+      "category": "Dressings",
+      "unit": "roll",
+      "packUnit": "box",
+      "packSize": 12,
+      "supplier": "MedSupply Central",
+      "sku": "DRS-BND3",
+      "lowStockThreshold": 20
+    },
+    {
+      "ref": "adhesive-strips",
+      "name": "Adhesive Bandage Strips",
+      "strength": "assorted",
+      "category": "Dressings",
+      "unit": "box",
+      "packUnit": "",
+      "supplier": "MedSupply Central",
+      "sku": "DRS-ABS",
+      "lowStockThreshold": 5,
+      "notes": "Box of 100 strips."
+    },
+    {
+      "ref": "thermometer",
+      "name": "Digital Thermometer",
+      "strength": "",
+      "category": "Equipment & Consumables",
+      "unit": "pc",
+      "packUnit": "",
+      "supplier": "MedSupply Central",
+      "sku": "EQP-THM",
+      "lowStockThreshold": 4,
+      "hasExpiry": false
+    },
+    {
+      "ref": "pulse-oximeter",
+      "name": "Pulse Oximeter",
+      "strength": "fingertip",
+      "category": "Equipment & Consumables",
+      "unit": "pc",
+      "packUnit": "",
+      "supplier": "MedSupply Central",
+      "sku": "EQP-OXI",
+      "lowStockThreshold": 2,
+      "hasExpiry": false
+    },
+    {
+      "ref": "gloves-nitrile",
+      "name": "Nitrile Exam Gloves",
+      "strength": "medium",
+      "category": "Equipment & Consumables",
+      "unit": "box",
+      "packUnit": "case",
+      "packSize": 10,
+      "supplier": "MedSupply Central",
+      "sku": "EQP-GLV-M",
+      "lowStockThreshold": 10,
+      "notes": "Box of 100 gloves."
+    }
+  ],
+  "batches": [
+    { "item": "paracetamol-500", "number": "PCM-2407A", "expiry": 95, "received": -140, "qty": 380 },
+    { "item": "paracetamol-500", "number": "PCM-2407B", "expiry": 95, "received": -60, "qty": 520 },
+    {
+      "item": "paracetamol-500",
+      "number": "PCM-2312C",
+      "expiry": 20,
+      "received": -330,
+      "qty": 150,
+      "adjustments": [
+        { "at": "-20d 16:00", "by": "inventory", "delta": -6, "reason": "Count correction", "note": "Crushed blister packs found at the weekly count." }
+      ]
+    },
+    { "item": "ibuprofen-400", "number": "IBU-2501A", "expiry": 260, "received": -45, "qty": 240 },
+    { "item": "ibuprofen-400", "number": "IBU-2409X", "expiry": 12, "received": -200, "qty": 60 },
+    { "item": "ibuprofen-400", "number": "IBU-2403Z", "expiry": 180, "received": -250, "qty": 0 },
+    { "item": "mefenamic-500", "number": "MFA-2411A", "expiry": 7, "received": -300, "qty": 70 },
+    { "item": "mefenamic-500", "number": "MFA-2506B", "expiry": 400, "received": -30, "qty": 200 },
+    { "item": "paracetamol-syrup", "number": "PCS-2412A", "expiry": 1, "received": -150, "qty": 9 },
+    { "item": "paracetamol-syrup", "number": "PCS-2602B", "expiry": 300, "received": -20, "qty": 24 },
+    { "item": "amoxicillin-500", "number": "AMX-2410A", "expiry": 45, "received": -180, "qty": 260 },
+    { "item": "amoxicillin-500", "number": "AMX-2602B", "expiry": 380, "received": -25, "qty": 400 },
+    { "item": "cotrimoxazole", "number": "COT-2409A", "expiry": 0, "received": -400, "qty": 48 },
+    { "item": "cotrimoxazole", "number": "COT-2512B", "expiry": 150, "received": -90, "qty": 180 },
+    { "item": "azithromycin-500", "number": "AZI-2408A", "expiry": -9, "received": -380, "qty": 24 },
+    { "item": "azithromycin-500", "number": "AZI-2511B", "expiry": 220, "received": -50, "qty": 90 },
+    {
+      "item": "cefalexin-500",
+      "number": "CEF-2406A",
+      "expiry": -45,
+      "received": -400,
+      "initialQty": 60,
+      "qty": 0,
+      "disposal": { "at": "-40d 14:00", "by": "inventory", "reason": "expired", "note": "Past expiry; removed from the dispensary shelf and written off." }
+    },
+    { "item": "cefalexin-500", "number": "CEF-2601B", "expiry": 330, "received": -35, "qty": 160 },
+    { "item": "mupirocin", "number": "MUP-2505A", "expiry": 31, "received": -100, "qty": 14 },
+    { "item": "mupirocin", "number": "MUP-2606B", "expiry": 400, "received": -15, "qty": 10 },
+    { "item": "cetirizine-10", "number": "CTZ-0102", "expiry": 120, "received": -30, "qty": 150 },
+    { "item": "cetirizine-10", "number": "CTZ-0101", "expiry": 120, "received": -30, "qty": 150 },
+    { "item": "cetirizine-10", "number": "CTZ-2410Z", "expiry": 8, "received": -300, "qty": 40 },
+    { "item": "loratadine-10", "number": "LOR-2503A", "expiry": 270, "received": -70, "qty": 120 },
+    { "item": "loratadine-10", "number": "LOR-2408B", "expiry": 9, "received": -200, "qty": 36 },
+    { "item": "chlorphenamine-4", "number": "CPM-2412A", "expiry": 30, "received": -250, "qty": 100 },
+    { "item": "chlorphenamine-4", "number": "CPM-2605B", "expiry": 500, "received": -10, "qty": 200 },
+    { "item": "omeprazole-20", "number": "OME-2506A", "expiry": 190, "received": -60, "qty": 280 },
+    { "item": "omeprazole-20", "number": "OME-2409B", "expiry": 25, "received": -220, "qty": 70 },
+    { "item": "loperamide-2", "number": "LOP-2503A", "expiry": 150, "received": -200, "qty": 0 },
+    { "item": "ors", "number": "ORS-2410A", "expiry": -12, "received": -250, "qty": 80 },
+    { "item": "ors", "number": "ORS-2605B", "expiry": 400, "received": -40, "qty": 22 },
+    { "item": "hyoscine-10", "number": "HYO-2507A", "expiry": 175, "received": -50, "qty": 90 },
+    { "item": "hyoscine-10", "number": "HYO-2408B", "expiry": 16, "received": -210, "qty": 30 },
+    { "item": "simethicone-40", "number": "SIM-2512A", "expiry": 230, "received": -40, "qty": 140 },
+    { "item": "simethicone-40", "number": "SIM-2408B", "expiry": 6, "received": -220, "qty": 20 },
+    { "item": "salbutamol-inhaler", "number": "SAL-2409A", "expiry": 5, "received": -270, "qty": 6 },
+    { "item": "salbutamol-inhaler", "number": "SAL-2604B", "expiry": 420, "received": -22, "qty": 12 },
+    { "item": "ambroxol-30", "number": "AMB-2506A", "expiry": 140, "received": -45, "qty": 160 },
+    { "item": "ambroxol-30", "number": "AMB-2407A", "expiry": -6, "received": -300, "qty": 30 },
+    { "item": "povidone-iodine", "number": "PVP-2508A", "expiry": 60, "received": -90, "qty": 25 },
+    { "item": "povidone-iodine", "number": "PVP-2410B", "expiry": 2, "received": -300, "qty": 6 },
+    {
+      "item": "povidone-iodine",
+      "number": "PVP-2308D",
+      "expiry": 100,
+      "received": -260,
+      "initialQty": 12,
+      "qty": 0,
+      "disposal": { "at": "-22d 10:30", "by": "inventory", "reason": "damaged", "note": "Bottles leaked in storage; written off." }
+    },
+    { "item": "alcohol-70", "number": "ALC-2601A", "expiry": 600, "received": -50, "qty": 30 },
+    { "item": "alcohol-70", "number": "ALC-2502B", "expiry": 33, "received": -120, "qty": 12 },
+    { "item": "hydrocortisone-cream", "number": "HYD-2509A", "expiry": 85, "received": -80, "qty": 18 },
+    { "item": "hydrocortisone-cream", "number": "HYD-2404E", "expiry": -20, "received": -330, "qty": 5 },
+    {
+      "item": "gauze-4x4",
+      "number": "GAZ-2607A",
+      "expiry": 520,
+      "received": -45,
+      "qty": 300,
+      "adjustments": [
+        { "at": "-10d 09:30", "by": "inventory", "delta": -10, "reason": "Damaged stock", "note": "Ten packs water-damaged in the storeroom; removed from stock." }
+      ]
+    },
+    { "item": "gauze-4x4", "number": "GAZ-2412B", "expiry": 28, "received": -200, "qty": 120 },
+    { "item": "elastic-bandage", "number": "BND-2604A", "expiry": 610, "received": -60, "qty": 45 },
+    { "item": "adhesive-strips", "number": "ABS-2606A", "expiry": 700, "received": -60, "qty": 14 },
+    { "item": "thermometer", "number": "THM-2025A", "expiry": null, "received": -400, "qty": 9 },
+    { "item": "thermometer", "number": "THM-2026B", "expiry": null, "received": -90, "qty": 5 },
+    { "item": "pulse-oximeter", "number": "OXI-2024A", "expiry": null, "received": -500, "qty": 3 },
+    { "item": "gloves-nitrile", "number": "GLV-2606A", "expiry": 540, "received": -45, "qty": 40 },
+    { "item": "gloves-nitrile", "number": "GLV-2501B", "expiry": 14, "received": -40, "qty": 8 }
+  ],
+  "dispensing": [
+    {
+      "ref": "d-r11",
+      "request": "r11",
+      "item": "paracetamol-500",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-9d 10:05",
+      "recipient": "Ward 2 Nurse Station",
+      "lines": [{ "batch": "PCM-2312C", "qty": 120 }]
+    },
+    {
+      "ref": "d-r12",
+      "request": "r12",
+      "item": "cotrimoxazole",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-8d 09:40",
+      "recipient": "Outpatient Clinic",
+      "lines": [{ "batch": "COT-2409A", "qty": 30 }]
+    },
+    {
+      "ref": "d-r13",
+      "request": "r13",
+      "item": "hydrocortisone-cream",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-15d 14:20",
+      "recipient": "Minor Procedures Room",
+      "lines": [{ "batch": "HYD-2509A", "qty": 3 }]
+    },
+    {
+      "ref": "d-r14",
+      "request": "r14",
+      "item": "loperamide-2",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-7d 15:20",
+      "recipient": "Ward 1",
+      "note": "Walk-in diarrhoea cases",
+      "lines": [{ "batch": "LOP-2503A", "qty": 20 }]
+    },
+    {
+      "ref": "d-r09",
+      "request": "r09",
+      "item": "ibuprofen-400",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-2d 10:30",
+      "recipient": "Sports Clinic",
+      "lines": [{ "batch": "IBU-2409X", "qty": 50 }]
+    },
+    {
+      "ref": "d-r17",
+      "request": "r17",
+      "item": "paracetamol-syrup",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-10d 11:10",
+      "undoneAt": "-10d 11:11",
+      "recipient": "Ward 2",
+      "note": "Entered by mistake",
+      "lines": [{ "batch": "PCS-2412A", "qty": 2 }]
+    },
+    {
+      "ref": "d-lop2",
+      "item": "loperamide-2",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-3d 11:00",
+      "recipient": "Outpatient Clinic",
+      "lines": [{ "batch": "LOP-2503A", "qty": 14 }]
+    },
+    {
+      "ref": "d01",
+      "item": "amoxicillin-500",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-44d 09:10",
+      "recipient": "Ward 1",
+      "lines": [{ "batch": "AMX-2410A", "qty": 60 }]
+    },
+    {
+      "ref": "d02",
+      "item": "paracetamol-500",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-41d 13:30",
+      "recipient": "Ward 3",
+      "lines": [{ "batch": "PCM-2312C", "qty": 20 }]
+    },
+    {
+      "ref": "d03",
+      "item": "ors",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-39d 10:00",
+      "recipient": "Outpatient Clinic",
+      "lines": [{ "batch": "ORS-2410A", "qty": 40 }]
+    },
+    {
+      "ref": "d04",
+      "item": "cetirizine-10",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-36d 15:45",
+      "recipient": "Ward 1",
+      "lines": [{ "batch": "CTZ-2410Z", "qty": 10 }]
+    },
+    {
+      "ref": "d05",
+      "item": "omeprazole-20",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-34d 08:50",
+      "recipient": "Ward 3",
+      "lines": [{ "batch": "OME-2409B", "qty": 50 }]
+    },
+    {
+      "ref": "d06",
+      "item": "ibuprofen-400",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-31d 11:25",
+      "recipient": "Sports Clinic",
+      "lines": [{ "batch": "IBU-2403Z", "qty": 60 }]
+    },
+    {
+      "ref": "d07",
+      "item": "povidone-iodine",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-30d 16:00",
+      "recipient": "Minor Procedures Room",
+      "lines": [{ "batch": "PVP-2508A", "qty": 2 }]
+    },
+    {
+      "ref": "d08",
+      "item": "azithromycin-500",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-28d 09:35",
+      "recipient": "Outpatient Clinic",
+      "lines": [{ "batch": "AZI-2408A", "qty": 30 }]
+    },
+    {
+      "ref": "d09",
+      "item": "salbutamol-inhaler",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-27d 14:10",
+      "recipient": "Emergency Room",
+      "lines": [{ "batch": "SAL-2409A", "qty": 1 }]
+    },
+    {
+      "ref": "d10",
+      "item": "gauze-4x4",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-26d 10:20",
+      "recipient": "Minor Procedures Room",
+      "lines": [{ "batch": "GAZ-2412B", "qty": 100 }]
+    },
+    {
+      "ref": "d11",
+      "item": "adhesive-strips",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-25d 13:05",
+      "recipient": "Staff Health Room",
+      "lines": [{ "batch": "ABS-2606A", "qty": 1 }]
+    },
+    {
+      "ref": "d12",
+      "item": "ibuprofen-400",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-24d 09:00",
+      "recipient": "Sports Clinic",
+      "lines": [{ "batch": "IBU-2403Z", "qty": 100 }]
+    },
+    {
+      "ref": "d13",
+      "item": "amoxicillin-500",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-21d 11:45",
+      "recipient": "Ward 1",
+      "lines": [{ "batch": "AMX-2410A", "qty": 100 }]
+    },
+    {
+      "ref": "d14",
+      "item": "ors",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-19d 15:10",
+      "recipient": "Outpatient Clinic",
+      "lines": [{ "batch": "ORS-2410A", "qty": 10 }]
+    },
+    {
+      "ref": "d15",
+      "item": "mefenamic-500",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-17d 08:40",
+      "recipient": "Staff Health Room",
+      "lines": [{ "batch": "MFA-2411A", "qty": 30 }]
+    },
+    {
+      "ref": "d16",
+      "item": "cotrimoxazole",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-14d 10:55",
+      "recipient": "Outpatient Clinic",
+      "lines": [{ "batch": "COT-2409A", "qty": 40 }]
+    },
+    {
+      "ref": "d17",
+      "item": "chlorphenamine-4",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-12d 13:15",
+      "recipient": "Ward 2",
+      "lines": [{ "batch": "CPM-2412A", "qty": 20 }]
+    },
+    {
+      "ref": "d18",
+      "item": "cetirizine-10",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-6d 09:25",
+      "recipient": "Ward 1",
+      "lines": [
+        { "batch": "CTZ-2410Z", "qty": 15 },
+        { "batch": "CTZ-0101", "qty": 25 }
+      ]
+    },
+    {
+      "ref": "d19",
+      "item": "paracetamol-500",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-5d 14:40",
+      "recipient": "Ward 2 Nurse Station",
+      "lines": [
+        { "batch": "PCM-2312C", "qty": 40 },
+        { "batch": "PCM-2407A", "qty": 160 }
+      ]
+    },
+    {
+      "ref": "d20",
+      "item": "hyoscine-10",
+      "source": "queue",
+      "by": "pharmacist",
+      "at": "-4d 11:30",
+      "recipient": "Ward 3",
+      "lines": [{ "batch": "HYO-2408B", "qty": 20 }]
+    },
+    {
+      "ref": "d21",
+      "item": "gloves-nitrile",
+      "source": "quick_deduct",
+      "by": "nurse",
+      "at": "-1d 10:10",
+      "recipient": "Minor Procedures Room",
+      "lines": [{ "batch": "GLV-2501B", "qty": 2 }]
+    }
+  ],
+  "requests": [
+    {
+      "ref": "r01",
+      "status": "pending",
+      "item": "paracetamol-500",
+      "qty": 100,
+      "requestor": "Ward 2 Nurse Station",
+      "requestorRef": "WARD-2",
+      "requestedBy": "nurse",
+      "reason": "Weekly cabinet restock",
+      "submitted": "-1d 16:40"
+    },
+    {
+      "ref": "r02",
+      "status": "pending",
+      "item": "ors",
+      "qty": 30,
+      "requestor": "Outpatient Clinic",
+      "requestorRef": "OPD",
+      "requestedBy": "nurse",
+      "reason": "Diarrhoea cases this week",
+      "submitted": "-1d 14:05"
+    },
+    {
+      "ref": "r03",
+      "status": "pending",
+      "item": "salbutamol-inhaler",
+      "qty": 2,
+      "requestor": "Emergency Room",
+      "requestorRef": "ER",
+      "requestedBy": "nurse",
+      "reason": "Asthma kit refill",
+      "submitted": "-2d 10:20"
+    },
+    {
+      "ref": "r04",
+      "status": "pending",
+      "item": "gauze-4x4",
+      "qty": 50,
+      "requestor": "Minor Procedures Room",
+      "requestorRef": "MPR",
+      "requestedBy": "nurse",
+      "reason": "Dressing change supplies",
+      "submitted": "-1d 09:15"
+    },
+    {
+      "ref": "r05",
+      "status": "approved",
+      "item": "amoxicillin-500",
+      "qty": 42,
+      "requestor": "Outpatient Clinic",
+      "requestorRef": "OPD",
+      "requestedBy": "nurse",
+      "reason": "Prescribed courses for the week",
+      "submitted": "-3d 11:00",
+      "history": [
+        { "at": "-2d 08:30", "to": "approved", "by": "pharmacist", "note": "Approved; prepare from the earliest-expiring batch." }
+      ]
+    },
+    {
+      "ref": "r06",
+      "status": "approved",
+      "item": "cetirizine-10",
+      "qty": 30,
+      "requestor": "Ward 1",
+      "requestorRef": "WARD-1",
+      "requestedBy": "nurse",
+      "reason": "Allergy season",
+      "submitted": "-4d 13:10",
+      "history": [{ "at": "-3d 09:00", "to": "approved", "by": "pharmacist" }]
+    },
+    {
+      "ref": "r07",
+      "status": "approved",
+      "item": "povidone-iodine",
+      "qty": 4,
+      "requestor": "Minor Procedures Room",
+      "requestorRef": "MPR",
+      "requestedBy": "nurse",
+      "reason": "Antiseptic restock",
+      "submitted": "-3d 15:30",
+      "history": [{ "at": "-2d 10:05", "to": "approved", "by": "pharmacist" }]
+    },
+    {
+      "ref": "r08",
+      "status": "ready",
+      "item": "omeprazole-20",
+      "qty": 60,
+      "requestor": "Ward 3",
+      "requestorRef": "WARD-3",
+      "requestedBy": "nurse",
+      "reason": "Ward cabinet",
+      "submitted": "-5d 10:00",
+      "history": [
+        { "at": "-4d 09:00", "to": "approved", "by": "pharmacist" },
+        { "at": "-1d 11:30", "to": "ready", "by": "pharmacist", "note": "Packed and labelled." }
+      ]
+    },
+    {
+      "ref": "r09",
+      "status": "ready",
+      "item": "ibuprofen-400",
+      "qty": 90,
+      "requestor": "Sports Clinic",
+      "requestorRef": "SPORTS",
+      "requestedBy": "nurse",
+      "reason": "Weekend tournament",
+      "submitted": "-6d 09:20",
+      "history": [
+        { "at": "-5d 08:50", "to": "approved", "by": "pharmacist" },
+        { "at": "-4d 14:00", "to": "ready", "by": "pharmacist" }
+      ]
+    },
+    {
+      "ref": "r10",
+      "status": "ready",
+      "item": "mefenamic-500",
+      "qty": 40,
+      "requestor": "Staff Health Room",
+      "requestorRef": "SHR",
+      "requestedBy": "pharmacist",
+      "reason": "Staff clinic stock",
+      "submitted": "-4d 16:10",
+      "history": [
+        { "at": "-3d 08:45", "to": "approved", "by": "pharmacist" },
+        { "at": "-2d 09:30", "to": "ready", "by": "pharmacist" }
+      ]
+    },
+    {
+      "ref": "r11",
+      "status": "claimed",
+      "item": "paracetamol-500",
+      "qty": 120,
+      "requestor": "Ward 2 Nurse Station",
+      "requestorRef": "WARD-2",
+      "requestedBy": "nurse",
+      "reason": "Weekly cabinet restock",
+      "submitted": "-12d 08:15",
+      "history": [
+        { "at": "-11d 09:00", "to": "approved", "by": "pharmacist" },
+        { "at": "-10d 13:40", "to": "ready", "by": "pharmacist" }
+      ]
+    },
+    {
+      "ref": "r12",
+      "status": "claimed",
+      "item": "cotrimoxazole",
+      "qty": 30,
+      "requestor": "Outpatient Clinic",
+      "requestorRef": "OPD",
+      "requestedBy": "nurse",
+      "reason": "Prescribed course",
+      "submitted": "-11d 15:00",
+      "history": [
+        { "at": "-10d 09:10", "to": "approved", "by": "pharmacist" },
+        { "at": "-9d 08:00", "to": "ready", "by": "pharmacist" }
+      ]
+    },
+    {
+      "ref": "r13",
+      "status": "claimed",
+      "item": "hydrocortisone-cream",
+      "qty": 3,
+      "requestor": "Minor Procedures Room",
+      "requestorRef": "MPR",
+      "requestedBy": "nurse",
+      "reason": "Skin irritation cases",
+      "submitted": "-17d 10:30",
+      "history": [
+        { "at": "-16d 09:00", "to": "approved", "by": "pharmacist" },
+        { "at": "-16d 14:00", "to": "ready", "by": "pharmacist" }
+      ]
+    },
+    { "ref": "r14", "source": "quick_deduct" },
+    {
+      "ref": "r15",
+      "status": "denied",
+      "item": "loperamide-2",
+      "qty": 30,
+      "requestor": "Ward 1",
+      "requestorRef": "WARD-1",
+      "requestedBy": "nurse",
+      "reason": "Ward cabinet",
+      "submitted": "-2d 13:20",
+      "denied": { "reason": "Out of Stock", "note": "Out of stock; the supplier delivery is expected next week." },
+      "history": [
+        { "at": "-1d 08:40", "to": "denied", "by": "pharmacist", "note": "Out of stock; the supplier delivery is expected next week." }
+      ]
+    },
+    {
+      "ref": "r16",
+      "status": "denied",
+      "item": "ors",
+      "qty": 30,
+      "requestor": "Outpatient Clinic",
+      "requestorRef": "OPD",
+      "requestedBy": "nurse",
+      "reason": "Diarrhoea cases this week",
+      "submitted": "-1d 14:30",
+      "denied": { "reason": "Duplicate Request", "note": "Same as the request submitted at 14:05." },
+      "history": [
+        { "at": "-1d 15:00", "to": "denied", "by": "pharmacist", "note": "Same as the request submitted at 14:05." }
+      ]
+    },
+    { "ref": "r17", "source": "quick_deduct" }
+  ]
+}
