@@ -8,11 +8,11 @@
 #   2. pnpm web:migrate --remote                        (applies apps/web/migrations)
 #   3. Secrets (never committed; see .dev.vars.example for the local equivalents). The Pages
 #      project must exist first:
-#        pnpm exec wrangler pages project create meditract --production-branch main
-#        pnpm exec wrangler pages secret put SESSION_PEPPER --project-name meditract
+#        pnpm exec wrangler pages project create meditrackk --production-branch main
+#        pnpm exec wrangler pages secret put SESSION_PEPPER --project-name meditrackk
 #      That sets the production secret. `pages secret put` has no --env flag: set the
 #      Preview value (a different random string) in the dashboard under Workers & Pages >
-#      meditract > Settings > Variables and Secrets > Preview.
+#      meditrackk > Settings > Variables and Secrets > Preview.
 #      The public VAPID key is NOT a secret: set VAPID_PUBLIC_KEY in [vars] below.
 #      Generate the pair with `node scripts/web-vapid-keys.mjs`; the private half
 #      belongs to the cron Worker only (`wrangler secret put VAPID_PRIVATE_KEY`).
@@ -25,7 +25,7 @@
 # environment repeats its own D1 binding and vars. The top-level blocks are what
 # `wrangler pages dev` and `wrangler d1 ... --local` use.
 
-name = "meditract"
+name = "meditrackk"
 pages_build_output_dir = "./dist"
 # Pinned so a deploy months from now runs against the runtime semantics the
 # release was tested on. Bump deliberately, together with the cron Worker.

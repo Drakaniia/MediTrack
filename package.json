@@ -39,7 +39,7 @@
     "test:web": "pnpm --filter web test",
     "version:bump": "node scripts/bump-version.mjs",
     "web:build": "pnpm --filter web build",
-    "web:deploy": "pnpm web:build && pnpm --filter web exec wrangler pages deploy dist --project-name meditract",
+    "web:deploy": "pnpm web:build && pnpm --filter web exec wrangler pages deploy dist --project-name meditrackk",
     "web:dev": "node scripts/web-dev.mjs",
     "web:migrate": "node scripts/web-migrate.mjs",
     "web:seed-admin": "node scripts/web-seed-admin.mjs",

@@ -92,7 +92,7 @@ jobs:
         run: pnpm exec wrangler d1 migrations apply meditract --remote --env production
       - name: Deploy Pages
         working-directory: apps/web
-        run: pnpm exec wrangler pages deploy dist --project-name meditract --branch main
+        run: pnpm exec wrangler pages deploy dist --project-name meditrackk --branch main
       - name: Deploy cron Worker
         run: pnpm --filter meditract-cron run deploy
 
@@ -129,4 +129,4 @@ jobs:
         run: pnpm exec wrangler d1 migrations apply meditract-preview --remote --env preview
       - name: Deploy Pages preview
         working-directory: apps/web
-        run: pnpm exec wrangler pages deploy dist --project-name meditract --branch "$PREVIEW_BRANCH"
+        run: pnpm exec wrangler pages deploy dist --project-name meditrackk --branch "$PREVIEW_BRANCH"

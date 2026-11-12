@@ -65,10 +65,10 @@ pnpm exec wrangler d1 create meditract
 pnpm exec wrangler d1 create meditract-preview      # optional, only for PR previews
 
 # 2. Pages project (once).
-pnpm exec wrangler pages project create meditract --production-branch main
+pnpm exec wrangler pages project create meditrackk --production-branch main
 
 # 3. Secrets.
-pnpm exec wrangler pages secret put SESSION_PEPPER --project-name meditract
+pnpm exec wrangler pages secret put SESSION_PEPPER --project-name meditrackk
 ```
 
 `SESSION_PEPPER` is a long random string, for example
