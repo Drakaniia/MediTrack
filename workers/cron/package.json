@@ -1,0 +1,28 @@
+{
+  "name": "meditract-cron",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MediTract scheduled Worker — expiry transitions, notifications, web push and the daily email digest (shares the web app's D1)",
+  "license": "MIT",
+  "author": "Drakaniia",
+  "type": "module",
+  "scripts": {
+    "build": "wrangler deploy --dry-run --outdir dist",
+    "check-types": "tsc --noEmit",
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev --test-scheduled",
+    "tail": "wrangler tail",
+    "test": "vitest run --passWithNoTests"
+  },
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "typescript": "catalog:",
+    "vite": "^8.1.5",
+    "vitest": "^4.1.11",
+    "wrangler": "^4.160.0"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=12.3.4"
+  }
+}

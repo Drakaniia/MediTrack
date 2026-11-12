@@ -1,0 +1,51 @@
+# MediTract cron Worker — scheduled expiry transitions, notifications, web push and
+# the daily email digest. It shares the web app's D1 database.
+#
+# Deploy (after the database exists and apps/web/wrangler.toml has its id):
+#   pnpm exec wrangler secret put VAPID_PRIVATE_KEY    (from workers/cron; see below)
+#   pnpm cron:deploy                                   (or let .github/workflows/web.yml do it)
+# Local run with a manually triggered schedule:
+#   pnpm cron:dev   then   curl "http://localhost:8787/__scheduled?cron=*/15+*+*+*+*"
+
+name = "meditract-cron"
+main = "src/index.ts"
+# Keep in step with apps/web/wrangler.toml: both run against the same D1 and share code.
+compatibility_date = "2026-10-01"
+# Not a web service: nothing should be reachable on a public workers.dev URL.
+workers_dev = false
+
+[triggers]
+# Every 15 minutes, on purpose. Cron expressions are UTC and fixed, but the facility
+# decides WHEN the digest goes out (a setting) and in WHICH timezone (a setting, with
+# daylight saving). The Worker therefore wakes often, converts "now" to facility time and
+# runs only the jobs that are due, once per day (job-run table + alert_state keep it
+# idempotent). A single fixed cron could not follow a DST change or a settings change.
+crons = ["*/15 * * * *"]
+
+# The same database as the Pages project. Keep database_id identical to the
+# `[[d1_databases]]` / `[env.production]` id in apps/web/wrangler.toml.
+[[d1_databases]]
+binding = "DB"
+database_name = "meditract"
+database_id = "REPLACE_WITH_D1_ID"
+migrations_dir = "../../apps/web/migrations"
+
+# Daily digest email via Cloudflare Email Service. Optional at runtime: the Worker checks
+# that env.EMAIL exists and skips the digest otherwise. Free tier only delivers to verified
+# destination addresses, see apps/web/README.md.
+[[send_email]]
+name = "EMAIL"
+
+[vars]
+# Public VAPID key (base64url). Same value as VAPID_PUBLIC_KEY in apps/web/wrangler.toml.
+VAPID_PUBLIC_KEY = ""
+# mailto: or https: contact URL sent to push services, e.g. "mailto:ops@example.org".
+VAPID_SUBJECT = ""
+# Sender address of the digest, on a domain onboarded to Email Service.
+EMAIL_FROM = ""
+# Public URL of the Pages app, used for links in notifications and the digest.
+APP_URL = ""
+
+# SECRET (never put it here): the VAPID private key.
+#   pnpm exec wrangler secret put VAPID_PRIVATE_KEY
+# Generate the key pair with `node scripts/web-vapid-keys.mjs`.
