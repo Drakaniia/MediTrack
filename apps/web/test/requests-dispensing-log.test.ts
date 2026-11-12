@@ -34,6 +34,8 @@ async function seedDispensing(world: World) {
   const gauze = stockItem(world.app, [{ qty: 20 }], "Gauze");
   const request = await readyRequest(world, aspirin.itemId, 6);
   await dispense(world.pharmacist.client, request.id);
+  // Same-instant records tie-break on a random UUID, so keep the order deterministic.
+  world.app.clock.advance(1000);
   const quick = await world.nurse.client.post<{ record: DispensingRecordDto }>(
     "/api/quick-deduct",
     { itemId: gauze.itemId, qty: 2, recipient: "Walk-in Ben" }
