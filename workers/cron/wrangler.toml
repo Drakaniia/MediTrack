@@ -27,7 +27,7 @@ crons = ["*/15 * * * *"]
 [[d1_databases]]
 binding = "DB"
 database_name = "meditract"
-database_id = "REPLACE_WITH_D1_ID"
+database_id = "503a4a7f-2f2a-4072-978d-c567244c1033"
 migrations_dir = "../../apps/web/migrations"
 
 # Daily digest email via Cloudflare Email Service. Optional at runtime: the Worker checks
