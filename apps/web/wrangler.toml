@@ -37,7 +37,7 @@ binding = "DB"
 database_name = "meditract"
 # Replaced by the id printed by `wrangler d1 create meditract`. The local D1
 # (apps/web/.wrangler/state) works with the placeholder; only --remote needs the real id.
-database_id = "REPLACE_WITH_D1_ID"
+database_id = "503a4a7f-2f2a-4072-978d-c567244c1033"
 migrations_dir = "migrations"
 
 [vars]
@@ -65,7 +65,7 @@ VAPID_PUBLIC_KEY = ""
 [[env.production.d1_databases]]
 binding = "DB"
 database_name = "meditract"
-database_id = "REPLACE_WITH_D1_ID"
+database_id = "503a4a7f-2f2a-4072-978d-c567244c1033"
 migrations_dir = "migrations"
 
 [env.production.vars]
