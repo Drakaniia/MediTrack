@@ -1,0 +1,132 @@
+name: web
+
+# MediTract Web (apps/web + workers/cron): verify, deploy and previews. ci.yml runs the
+# repo-wide lint, typecheck, test and build.
+#
+# Needs: repository secrets CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID, an
+# environment named "production", and real D1 ids in apps/web/wrangler.toml and
+# workers/cron/wrangler.toml. Optional previews: repository variable
+# WEB_PREVIEW_ENABLED=true plus the preview D1 id. Setup: apps/web/README.md.
+
+on:
+  pull_request:
+    paths:
+      - "apps/web/**"
+      - "workers/cron/**"
+      - "packages/ui/**"
+      - "scripts/web-*"
+      - "pnpm-lock.yaml"
+      - "package.json"
+      - "vite.config.ts"
+      - ".github/workflows/web.yml"
+  push:
+    branches: [main]
+    paths:
+      - "apps/web/**"
+      - "workers/cron/**"
+      - "packages/ui/**"
+      - "scripts/web-*"
+      - "pnpm-lock.yaml"
+      - "package.json"
+      - "vite.config.ts"
+      - ".github/workflows/web.yml"
+
+concurrency:
+  group: web-${{ github.ref }}
+  # Superseded PR runs are safe to cancel; a run on main may be mid-deploy and must finish.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      # A local action is resolved from the workspace, so the repo must be
+      # checked out before ./... resolves. The checkout inside the composite
+      # action is too late to help.
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Lint
+        run: pnpm exec vp lint apps/web workers/cron
+      - name: Typecheck web
+        run: pnpm --filter web check-types
+      - name: Test web
+        run: pnpm --filter web test
+      - name: Typecheck cron
+        run: pnpm --filter meditract-cron check-types
+      - name: Test cron
+        run: pnpm --filter meditract-cron test
+      - name: Bundle cron (wrangler deploy --dry-run)
+        run: pnpm --filter meditract-cron build
+
+  deploy:
+    name: deploy (production)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: [verify]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    # One production deploy at a time, and never cancel one halfway: migrations
+    # and the Pages upload must not interleave with another run.
+    concurrency:
+      group: web-deploy
+      cancel-in-progress: false
+    permissions:
+      contents: read
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Build web
+        run: pnpm --filter web build
+      # Migrations first: the new code may rely on them, and they are forward-only
+      # and additive, so the still-running old code keeps working in between.
+      - name: Apply D1 migrations (remote)
+        working-directory: apps/web
+        run: pnpm exec wrangler d1 migrations apply meditract --remote --env production
+      - name: Deploy Pages
+        working-directory: apps/web
+        run: pnpm exec wrangler pages deploy dist --project-name meditract --branch main
+      - name: Deploy cron Worker
+        run: pnpm --filter meditract-cron deploy
+
+  # Optional: a Pages preview per same-repo PR, against the separate preview D1.
+  # Off unless the repository variable WEB_PREVIEW_ENABLED is "true". Fork PRs never
+  # get secrets, so they are excluded.
+  preview:
+    name: deploy (preview)
+    if: >-
+      github.event_name == 'pull_request'
+      && vars.WEB_PREVIEW_ENABLED == 'true'
+      && github.event.pull_request.head.repo.full_name == github.repository
+    needs: [verify]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: web-preview-${{ github.head_ref }}
+      cancel-in-progress: true
+    permissions:
+      contents: read
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      # Through the environment, never interpolated into the script: branch names are
+      # attacker-controlled text.
+      PREVIEW_BRANCH: ${{ github.head_ref }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - name: Build web
+        run: pnpm --filter web build
+      - name: Apply D1 migrations (preview database)
+        working-directory: apps/web
+        run: pnpm exec wrangler d1 migrations apply meditract-preview --remote --env preview
+      - name: Deploy Pages preview
+        working-directory: apps/web
+        run: pnpm exec wrangler pages deploy dist --project-name meditract --branch "$PREVIEW_BRANCH"
