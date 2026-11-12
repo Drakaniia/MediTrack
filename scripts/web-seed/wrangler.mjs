@@ -210,7 +210,9 @@ export function runD1Sql({ json = false, secrets = [], sql, target }) {
   const file = join(directory, "seed.sql");
   try {
     writeFileSync(file, sql, { encoding: "utf8", mode: 0o600 });
-    const args = [entry, ...d1ExecuteArgs(target), "--file", file, "--yes"];
+    // Remote `--file` runs return only a summary, never SELECT rows: send reads as `--command`.
+    const source = json && target.remote ? ["--command", sql] : ["--file", file];
+    const args = [entry, ...d1ExecuteArgs(target), ...source, "--yes"];
     if (json) {
       args.push("--json");
     }
