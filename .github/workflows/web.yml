@@ -94,7 +94,7 @@ jobs:
         working-directory: apps/web
         run: pnpm exec wrangler pages deploy dist --project-name meditract --branch main
       - name: Deploy cron Worker
-        run: pnpm --filter meditract-cron deploy
+        run: pnpm --filter meditract-cron run deploy
 
   # Optional: a Pages preview per same-repo PR, against the separate preview D1.
   # Off unless the repository variable WEB_PREVIEW_ENABLED is "true". Fork PRs never

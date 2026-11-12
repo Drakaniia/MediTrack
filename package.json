@@ -29,7 +29,7 @@
     "build": "vp run -r build",
     "check-types": "vp run -r check-types",
     "check-types:web": "pnpm --filter web check-types",
-    "cron:deploy": "pnpm --filter meditract-cron deploy",
+    "cron:deploy": "pnpm --filter meditract-cron run deploy",
     "cron:dev": "pnpm --filter meditract-cron dev",
     "dev": "vp run -r dev",
     "hooks:setup": "vp config",
