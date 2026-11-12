@@ -1,5 +1,5 @@
 {
-  "name": "meditrack",
+  "name": "meditract",
   "version": "1.13.9",
   "private": true,
   "description": "MediTract — web-based medical supply expiry tracking and FEFO dispensing (React SPA + Cloudflare Pages Functions + D1)",
