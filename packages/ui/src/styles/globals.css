@@ -1,0 +1,610 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@source "../../../apps/**/*.{ts,tsx}";
+@source "../**/*.{ts,tsx}";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(0.965 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.95 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.5 0 0);
+  --accent: oklch(0.945 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.58 0.22 27);
+  --warning: oklch(0.68 0.16 48);
+  --warning-foreground: oklch(0.145 0 0);
+  --border: oklch(0.91 0 0);
+  --input: oklch(0.91 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.809 0.105 251.813);
+  --chart-2: oklch(0.623 0.214 259.815);
+  --chart-3: oklch(0.546 0.245 262.881);
+  --chart-4: oklch(0.488 0.243 264.376);
+  --chart-5: oklch(0.424 0.199 265.638);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --chart-background: oklch(1 0 0);
+  --chart-foreground: oklch(0.145 0.004 285);
+  --chart-foreground-muted: oklch(0.55 0.014 260);
+  --chart-line-primary: var(--chart-1);
+  --chart-line-secondary: var(--chart-2);
+  --chart-crosshair: oklch(0.4 0.1828 274.34);
+  --chart-grid: oklch(0.86 0 0);
+  --chart-brush-border: var(--chart-grid);
+  --chart-tooltip-background: oklch(0.21 0.006 285 / 0.8);
+  --chart-tooltip-foreground: oklch(0.985 0 0);
+  --chart-tooltip-muted: oklch(0.65 0.01 260);
+  --chart-marker-background: oklch(0.97 0.005 260);
+  --chart-marker-border: oklch(0.85 0.01 260);
+  --chart-marker-foreground: oklch(0.3 0.01 260);
+  --chart-label: oklch(0.45 0.01 260);
+  --chart-scale-01: oklch(0.98 0.003 106);
+  --chart-scale-02: oklch(0.92 0.008 106);
+  --chart-scale-03: oklch(0.82 0.015 106);
+  --chart-scale-04: oklch(0.68 0.02 106);
+  --chart-scale-05: oklch(0.55 0.025 106);
+  --chart-scale-pattern-color: oklch(0.96 0.005 106);
+  /* ── Apple scrollbar tokens (overlay, pill, translucent) ── */
+  --apple-scrollbar-thumb: oklch(0 0 0 / 0.22);
+  --apple-scrollbar-thumb-hover: oklch(0 0 0 / 0.32);
+  --apple-scrollbar-thumb-active: oklch(0 0 0 / 0.42);
+}
+
+.dark {
+  /* Apple §12 — canvas sits one step under the chrome material (sidebar/header
+     ≈ 0.88 × card over this value). 0.16 keeps the hierarchy legible while
+     narrowing the gap so pages don't feel detached from the chrome. */
+  --background: oklch(0.16 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.87 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.371 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --warning: oklch(0.75 0.14 62);
+  --warning-foreground: oklch(0.145 0 0);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.809 0.105 251.813);
+  --chart-2: oklch(0.623 0.214 259.815);
+  --chart-3: oklch(0.546 0.245 262.881);
+  --chart-4: oklch(0.488 0.243 264.376);
+  --chart-5: oklch(0.424 0.199 265.638);
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+  --chart-background: oklch(0.16 0 0);
+  --chart-foreground: oklch(0.45 0 0);
+  --chart-foreground-muted: oklch(0.65 0.01 260);
+  --chart-crosshair: oklch(0.45 0 0);
+  --chart-grid: oklch(0.32 0 0);
+  --chart-brush-border: var(--chart-grid);
+  --chart-marker-background: oklch(0.25 0.01 260);
+  --chart-marker-border: oklch(0.4 0.01 260);
+  --chart-marker-foreground: oklch(0.9 0 0);
+  --chart-label: oklch(0.75 0.01 260);
+  --chart-scale-01: oklch(0.28 0.03 270);
+  --chart-scale-02: oklch(0.38 0.04 270);
+  --chart-scale-03: oklch(0.48 0.05 270);
+  --chart-scale-04: oklch(0.58 0.06 270);
+  --chart-scale-05: oklch(0.68 0.07 270);
+  --chart-scale-pattern-color: oklch(0.16 0 0);
+  --apple-scrollbar-thumb: oklch(1 0 0 / 0.24);
+  --apple-scrollbar-thumb-hover: oklch(1 0 0 / 0.34);
+  --apple-scrollbar-thumb-active: oklch(1 0 0 / 0.46);
+}
+
+@theme inline {
+  --font-sans: "Inter Variable", sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-chart-scale-pattern-color: var(----chart-scale-pattern-color);
+  --color-chart-scale-05: var(----chart-scale-05);
+  --color-chart-scale-04: var(----chart-scale-04);
+  --color-chart-scale-03: var(----chart-scale-03);
+  --color-chart-scale-02: var(----chart-scale-02);
+  --color-chart-scale-01: var(----chart-scale-01);
+  --color-chart-label: var(----chart-label);
+  --color-chart-marker-foreground: var(----chart-marker-foreground);
+  --color-chart-marker-border: var(----chart-marker-border);
+  --color-chart-marker-background: var(----chart-marker-background);
+  --color-chart-tooltip-muted: var(----chart-tooltip-muted);
+  --color-chart-tooltip-foreground: var(----chart-tooltip-foreground);
+  --color-chart-tooltip-background: var(----chart-tooltip-background);
+  --chart-brush-border: var(----chart-brush-border);
+  --color-chart-grid: var(----chart-grid);
+  --color-chart-crosshair: var(----chart-crosshair);
+  --chart-line-secondary: var(----chart-line-secondary);
+  --chart-line-primary: var(----chart-line-primary);
+  --color-chart-foreground-muted: var(----chart-foreground-muted);
+  --color-chart-foreground: var(----chart-foreground);
+  --color-chart-background: var(----chart-background);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply font-sans bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}
+
+/* ─── Apple Design §15 — Typography tokens ────────────────────────
+ * Size-specific tracking & leading per Apple WWDC 2020:
+ *   display: large numbers, tighten tracking as size grows
+ *   heading: card/modal titles, moderate tighten
+ *   body: table cells, form labels, zero tracking
+ *   caption: timestamps, helpers, slight positive tracking
+ */
+@layer utilities {
+  .text-display {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-optical-sizing: auto;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .text-heading {
+    font-size: clamp(1.125rem, 1.5vw, 1.35rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .text-ui {
+    font-size: 0.9375rem;
+    line-height: 1.4;
+  }
+  .text-body {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+  .text-caption {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+  }
+}
+
+/* ─── Apple Design §12 — Materials & Depth ────────────────────────
+ * Surface hierarchy through translucency and blur:
+ *   material-sidebar  — heavier structural material (85% white + blur 12px)
+ *   surface-frosted   — sheets/modals (72% white + blur 16px + scale)
+ *   canvas-card       — dashboard cards (subtle card shadow + radius)
+ *   page-canvas       — page background (muted tint). Owned by the app shell
+ *                         (<main> in __root.tsx) so every page inherits one
+ *                         consistent canvas; pages must not paint their own.
+ *   field-opaque      — table/form fields (opaque, clinical)
+ *
+ * Apple §12: material weight encodes hierarchy. Heavier = structural.
+ * Never stack light translucent on another (legibility collapse).
+ */
+.material-sidebar {
+  background: color-mix(in oklch, var(--card) 88%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+}
+
+/* Desktop window title bar — same grey material as the sidebar/header chrome
+ * so the entire window shell (titlebar + sidebar + header) reads as one
+ * continuous surface. Matched to material-sidebar (88% card + blur 12px). */
+.titlebar {
+  background: color-mix(in oklch, var(--card) 88%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+}
+
+.surface-frosted {
+  background: color-mix(in oklch, var(--card) 78%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+}
+
+.canvas-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 1px 3px oklch(0 0 0 / 0.04),
+    0 4px 12px oklch(0 0 0 / 0.02);
+}
+
+.page-canvas {
+  box-sizing: border-box;
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  /* Ensure the last viewport row is never flush against the window edge (Tauri
+     minimized / short viewport). Scrollable parents reserve safe-area + breathing
+     room so the bottom cards remain reachable. */
+  scroll-padding-bottom: 32px;
+  background: color-mix(in oklch, var(--background) 92%, var(--muted));
+}
+
+/* Every scroll container inside the app shell must keep the bottom 24px
+   reachable when the Tauri window is at its minimum height. Adding
+   scroll-padding + a real padding guarantees the last card/footnote is not
+   clipped and the scroll thumb can reach the end. */
+.page-canvas .overflow-auto,
+.page-canvas .overflow-y-auto,
+.page-canvas [class*="overflow-auto"] {
+  scroll-padding-bottom: 32px;
+}
+
+.field-opaque {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+/* ─── Apple Design §1 — Response: press feedback ──────────────────
+ * Highlight on pointer-down, not on release (Apple §1 Response).
+ * Scale 0.97 on press, 100ms ease-out — feels like a physical button.
+ */
+.press-feedback {
+  transition:
+    transform 100ms ease-out,
+    box-shadow 100ms ease-out;
+  will-change: transform;
+}
+.press-feedback:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* ─── CMIS-UI-05 §F3 — the drag cursor is owned by the phase ──────
+ * The drag engine sets `data-drag-phase` on <body> for the life of a gesture
+ * and removes it in the same commit that ends the gesture, so a "stuck
+ * grabbing" cursor cannot outlive a dropped card. `not-allowed` covers a lane
+ * that will refuse the card *and* the space between lanes.
+ */
+body[data-drag-phase="grabbing"],
+body[data-drag-phase="grabbing"] * {
+  cursor: grabbing !important;
+}
+
+body[data-drag-phase="not-allowed"],
+body[data-drag-phase="not-allowed"] * {
+  cursor: not-allowed !important;
+}
+
+/* ─── Apple Design §1 — Global button press feedback ───────────
+ * All native <button> elements get Apple-style press animation.
+ * Excludes segmented controls (aria-pressed) and disabled buttons.
+ * Matches the .press-feedback utility for consistency.
+ */
+button:not([aria-pressed]):not(:disabled):not([role="menuitem"]):not(
+  [role="option"]
+) {
+  transition:
+    transform 100ms ease-out,
+    box-shadow 100ms ease-out,
+    background-color 150ms ease-out;
+  will-change: transform;
+}
+button:not([aria-pressed]):not(:disabled):not([role="menuitem"]):not(
+  [role="option"]
+):active {
+  transform: scale(0.97);
+}
+
+/* ─── Apple Design — Hidden Scrollbar System ──────────────────────
+ * Cleaner than overlay: chrome is hidden, content still scrolls.
+ *   - No layout shift (scrollbar-gutter: auto, overlay concept)
+ *   - Wheel / touch / drag / keyboard scroll all work, thumb hidden
+ *   - Fade masks below hint scrollability (§12 soft edges)
+ *   - To restore Apple overlay pill on a specific container, use
+ *     .scrollbar-apple (uncomment the opt-in block below)
+ */
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  scrollbar-gutter: auto;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* ── Global hidden — Firefox + IE/Edge ───────────────────────────── */
+* {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ── Global hidden — WebKit / Chromium / Electron (Tauri) ────────── */
+*::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+*::-webkit-scrollbar-track,
+*::-webkit-scrollbar-corner,
+*::-webkit-scrollbar-thumb {
+  display: none;
+  background: transparent;
+}
+
+/* ── All aliases now mean "hidden" (cleaner) ─────────────────────── */
+.scrollbar-apple,
+.scrollbar-subtle,
+.scrollbar-thin,
+.scrollbar-none,
+.scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-apple::-webkit-scrollbar,
+.scrollbar-subtle::-webkit-scrollbar,
+.scrollbar-thin::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar,
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* ── Gutter compat — hidden uses overlay, never reserved space ───── */
+.scrollbar-gutter-stable {
+  scrollbar-gutter: auto;
+}
+
+/* ── Opt-in: restore Apple overlay pill on a specific scroller ─────
+ * Add class="scrollbar-apple" where you DO want the thin pill.
+ * Example: <div class="scrollbar-apple overflow-y-auto">
+ */
+/*
+.scrollbar-apple {
+  scrollbar-width: thin;
+  scrollbar-color: var(--apple-scrollbar-thumb) transparent;
+}
+.scrollbar-apple::-webkit-scrollbar { display: block; width: 8px; height: 8px; }
+.scrollbar-apple::-webkit-scrollbar-thumb {
+  display: block;
+  background-color: var(--apple-scrollbar-thumb);
+  background-clip: content-box;
+  border: 2px solid transparent;
+  border-radius: 9999px;
+}
+.scrollbar-apple:hover { scrollbar-color: var(--apple-scrollbar-thumb) transparent; }
+.scrollbar-apple:hover::-webkit-scrollbar-thumb { background-color: var(--apple-scrollbar-thumb); }
+.scrollbar-apple::-webkit-scrollbar-thumb:hover { background-color: var(--apple-scrollbar-thumb-hover); }
+.scrollbar-apple::-webkit-scrollbar-thumb:active { background-color: var(--apple-scrollbar-thumb-active); }
+*/
+
+/* ── Scroll fade masks (Apple §12 soft edges vs hard dividers) ───── */
+.scroll-fade-b {
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    black calc(100% - 24px),
+    transparent 100%
+  );
+}
+
+.scroll-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 12px,
+    black calc(100% - 12px),
+    transparent 100%
+  );
+}
+
+/* ── Overscroll rubber-banding hint (§9) ─────────────────────────── */
+.overscroll-contain {
+  overscroll-behavior: contain;
+}
+
+/* ─── Apple Design §12 — Toast Material ────────────────────────────
+ * Frosted translucent toast (§12 lighter material): content scrolls
+ * underneath, bright top edge catches light, refined shadow.
+ * Spring-like transitions approximate Apple's critically damped spring
+ * (damping 1.0, response 0.3s) using cubic-bezier curves.
+ */
+.cn-toast {
+  background: color-mix(in oklch, var(--popover) 72%, transparent) !important;
+  border: 1px solid color-mix(in oklch, var(--border) 50%, transparent) !important;
+  border-top: 1px solid oklch(1 0 0 / 0.35) !important;
+  border-radius: calc(var(--radius) + 4px) !important;
+  box-shadow:
+    0 4px 16px oklch(0 0 0 / 0.06),
+    0 1px 4px oklch(0 0 0 / 0.04) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  /* §4 Spring-like transitions — cubic-bezier approximates critically
+     damped spring (damping 1.0, response ~0.3s). Snap-in entry,
+     smooth deceleration, no overshoot. */
+  transition:
+    transform 350ms cubic-bezier(0.22, 0.68, 0, 1),
+    opacity 250ms cubic-bezier(0.22, 0.68, 0, 1),
+    height 350ms cubic-bezier(0.22, 0.68, 0, 1),
+    box-shadow 200ms ease !important;
+}
+
+.cn-toast:active {
+  box-shadow:
+    0 2px 8px oklch(0 0 0 / 0.08),
+    0 1px 2px oklch(0 0 0 / 0.04) !important;
+}
+
+.dark .cn-toast {
+  border-top: 1px solid oklch(1 0 0 / 0.12) !important;
+  box-shadow:
+    0 4px 16px oklch(0 0 0 / 0.2),
+    0 1px 4px oklch(0 0 0 / 0.12) !important;
+}
+
+/* ─── Apple Design §14 — Reduced motion & accessibility ───────────
+ * Three independent signals (WWDC 2018/2022):
+ *   1. prefers-reduced-motion: replace slides/springs with cross-fades
+ *   2. prefers-reduced-transparency: make translucent surfaces solid
+ *   3. prefers-contrast: near-solid backgrounds with defined borders
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .press-feedback:active {
+    transform: none;
+  }
+  button:not([aria-pressed]):not(:disabled):not([role="menuitem"]):not(
+    [role="option"]
+  ):active {
+    transform: none;
+  }
+  .surface-frosted,
+  .material-sidebar,
+  .titlebar {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  /* §14 Toasts: cross-fade only, no slide/spring — replaces spring
+      transitions with a short opacity fade. */
+  .cn-toast {
+    transform: none !important;
+    transition: opacity 150ms ease !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --apple-scrollbar-thumb: oklch(0 0 0 / 0.45);
+    --apple-scrollbar-thumb-hover: oklch(0 0 0 / 0.6);
+    --apple-scrollbar-thumb-active: oklch(0 0 0 / 0.72);
+  }
+  .dark {
+    --apple-scrollbar-thumb: oklch(1 0 0 / 0.45);
+    --apple-scrollbar-thumb-hover: oklch(1 0 0 / 0.6);
+    --apple-scrollbar-thumb-active: oklch(1 0 0 / 0.72);
+  }
+  .material-sidebar,
+  .titlebar {
+    background: var(--card);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  .surface-frosted {
+    background: var(--card);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+  /* §14 Toasts: solid frosty background, no blur — respects user
+      preference for reduced transparency. */
+  .cn-toast {
+    background: var(--popover) !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --apple-scrollbar-thumb: oklch(0 0 0 / 0.5);
+    --apple-scrollbar-thumb-hover: oklch(0 0 0 / 0.65);
+    --apple-scrollbar-thumb-active: oklch(0 0 0 / 0.8);
+  }
+  .dark {
+    --apple-scrollbar-thumb: oklch(1 0 0 / 0.5);
+    --apple-scrollbar-thumb-hover: oklch(1 0 0 / 0.65);
+    --apple-scrollbar-thumb-active: oklch(1 0 0 / 0.8);
+  }
+  .material-sidebar {
+    background: var(--card);
+    border-right: 1.5px solid var(--border);
+  }
+  .titlebar {
+    background: var(--card);
+    border-bottom: 1.5px solid var(--border);
+  }
+  .surface-frosted {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+  }
+  .canvas-card {
+    border: 1.5px solid var(--border);
+  }
+  /* §14 Toasts: solid background with defined border for high contrast. */
+  .cn-toast {
+    background: var(--popover) !important;
+    border: 1.5px solid var(--border) !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
