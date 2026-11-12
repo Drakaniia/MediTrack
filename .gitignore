@@ -1,0 +1,78 @@
+# Dependencies
+node_modules
+.pnp
+.pnp.js
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Generated files
+local.db
+local.db-*
+
+# Environment variables
+.env
+.env*.local
+
+# IDEs and editors
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs
+.evlog/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Turbo
+.turbo
+.nx
+
+# Better-T-Stack
+.alchemy
+.vercel
+
+# Testing
+coverage
+.nyc_output
+
+# Clinic inventory workbooks - runtime data imported by the user, never tracked or required at build
+AUGUST 2026 inventory*.xlsx
+AUGUST 2026 inventory*.csv
+# Excel lock stubs ("~$" is a leading prefix, so it defeats the "AUGUST 2026 inventory*" rules above)
+~$*
+# Misc
+*.tgz
+.cache
+tmp
+temp
+
+# Local Worker secrets (apps/web/.dev.vars.example is the committed template)
+.dev.vars
+
+# MediTract Web build outputs and generated files
+apps/web/dist
+workers/cron/dist
+apps/web/.tanstack
+
+# Install/baseline logs left by tooling
+*.install.log
+.install.log
+.baseline-check.log
+
+# Wrangler
+.wrangler

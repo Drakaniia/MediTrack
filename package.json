@@ -1,0 +1,64 @@
+{
+  "name": "meditrack",
+  "version": "1.13.9",
+  "private": true,
+  "description": "MediTract — web-based medical supply expiry tracking and FEFO dispensing (React SPA + Cloudflare Pages Functions + D1)",
+  "keywords": [
+    "clinic-medicine-inventory",
+    "meditrack",
+    "inventory",
+    "fefo",
+    "cloudflare-pages",
+    "d1",
+    "tanstack-router",
+    "typescript",
+    "vite"
+  ],
+  "homepage": "https://github.com/Drakaniia/cmis#readme",
+  "bugs": {
+    "url": "https://github.com/Drakaniia/cmis/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Drakaniia/cmis.git"
+  },
+  "license": "MIT",
+  "author": "Drakaniia",
+  "type": "module",
+  "scripts": {
+    "build": "vp run -r build",
+    "check-types": "vp run -r check-types",
+    "check-types:web": "pnpm --filter web check-types",
+    "cron:deploy": "pnpm --filter meditract-cron deploy",
+    "cron:dev": "pnpm --filter meditract-cron dev",
+    "dev": "vp run -r dev",
+    "hooks:setup": "vp config",
+    "lint": "vp lint",
+    "test": "vp run -r test",
+    "test:cron": "pnpm --filter meditract-cron test",
+    "test:web": "pnpm --filter web test",
+    "version:bump": "node scripts/bump-version.mjs",
+    "web:build": "pnpm --filter web build",
+    "web:deploy": "pnpm web:build && pnpm --filter web exec wrangler pages deploy dist --project-name meditract",
+    "web:dev": "node scripts/web-dev.mjs",
+    "web:migrate": "node scripts/web-migrate.mjs",
+    "web:seed-admin": "node scripts/web-seed-admin.mjs",
+    "web:seed-demo": "node scripts/web-seed-demo.mjs"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@0.3.0"
+  },
+  "engines": {
+    "node": ">=24.0.0",
+    "pnpm": ">=12.3.4"
+  },
+  "devDependencies": {
+    "@cmis/config": "workspace:*",
+    "@types/bun": "catalog:",
+    "shadcn": "^4.21.0",
+    "typescript": "catalog:",
+    "vite-plus": "0.3.0",
+    "wrangler": "^4.160.0"
+  },
+  "packageManager": "pnpm@12.3.4"
+}

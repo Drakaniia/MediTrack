@@ -1,0 +1,14 @@
+# Code files are formatted by the repo's own tooling, not here
+*.js
+*.jsx
+*.ts
+*.tsx
+*.mjs
+*.cjs
+
+# Build & deps
+node_modules
+dist
+build
+target
+pnpm-lock.yaml
